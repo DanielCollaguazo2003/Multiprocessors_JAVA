@@ -16,13 +16,20 @@ public class Imagen {
     BufferedImage image;
 
     /**
-     * Guarda una imagen en un archivo especificado.
+     * Guarda una imagen en un archivo con nombre generado automáticamente según los parámetros.
      *
-     * @param image      Imagen a guardar.
-     * @param outputPath Ruta de salida donde se almacenará la imagen.
+     * @param image         Imagen a guardar.
+     * @param originalName  Nombre de la imagen original (ej: ej1.jpg).
+     * @param filterName    Nombre del filtro aplicado (ej: emboss, gaussian, etc.).
+     * @param kernelSize    Tamaño del kernel (ej: 3, 9, 13...).
+     * @param executionType Tipo de ejecución ("Secuencial" o "Paralela").
      */
-    public void saveImage(BufferedImage image, String outputPath) {
+    public void saveImage(BufferedImage image, String originalName, String filterName, int kernelSize, String executionType) {
         try {
+            String baseName = originalName.substring(0, originalName.lastIndexOf('.'));
+            String fileName = baseName + "_" + filterName + "_k" + kernelSize + "_" + executionType + ".png";
+            String outputPath = "src/main/resources/" + fileName;
+
             File output = new File(outputPath);
             ImageIO.write(image, "png", output);
             System.out.println("Imagen guardada en: " + outputPath);
@@ -30,6 +37,7 @@ public class Imagen {
             System.err.println("Error al guardar la imagen: " + e.getMessage());
         }
     }
+
 
     /**
      * Aplica una convolución a una imagen RGB utilizando un filtro definido por un kernel.
