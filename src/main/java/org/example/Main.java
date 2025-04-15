@@ -12,9 +12,9 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
 
-        float[][] gaussianKernel = Kernels.generateGaussianKernel(21, 4.5f);
+        float[][] gaussianKernel = Kernels.generateGaussianKernel(9, 4.5f);
         float[][] sobelXKernel = Kernels.generateSobelXKernel(9);
-        float[][] laplacianKernel = Kernels.generateLaplacianKernel(9);
+        float[][] laplacianKernel = Kernels.generateLaplacianKernel(21);
 
         File file = new File("src/main/resources/ej1.jpg"); // Ruta de la imagen
         BufferedImage image;
@@ -30,19 +30,19 @@ public class Main {
 
         //Ejecucion Secuencial
         long startTime1 = System.nanoTime();
-        BufferedImage resultImage1 = imagen.applyConvolutionRGB(image, gaussianKernel);
+        BufferedImage resultImage1 = imagen.applyConvolutionRGB(image, laplacianKernel);
         long endTime1 = System.nanoTime();
         long duration1 = endTime1 - startTime1;
         System.out.println("Tiempo de ejecución: " + duration1 / 1_000_000 + " ms");
-        imagen.saveImage(resultImage1, "ej1.jpg", "gaussian", 13, "Secuencial");
+        imagen.saveImage(resultImage1, "ej1.jpg", "laplacian", 21, "Secuencial");
 
 
         //Ejecucion Parallela
         long startTime2 = System.nanoTime();
-        BufferedImage resultImage2 = imagen.applyConvolutionParallelRGB(image, gaussianKernel);
+        BufferedImage resultImage2 = imagen.applyConvolutionParallelRGB(image, laplacianKernel);
         long endTime2 = System.nanoTime();
         long duration2 = endTime2 - startTime2;
         System.out.println("Tiempo de ejecución: " + duration2 / 1_000_000 + " ms");
-        imagen.saveImage(resultImage2, "ej1.jpg", "gaussian", 13, "Paralela");
+        imagen.saveImage(resultImage2, "ej1.jpg", "laplacian", 21, "Paralela");
     }
 }
