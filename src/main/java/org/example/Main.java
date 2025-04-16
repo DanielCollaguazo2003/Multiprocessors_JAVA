@@ -30,12 +30,12 @@ public class Main {
 
 
         //Ejecucion Secuencial
-//        long startTime1 = System.nanoTime();
-//        BufferedImage resultImage1 = imagen.applyConvolutionRGB(image, laplacianKernel);
-//        long endTime1 = System.nanoTime();
-//        long duration1 = endTime1 - startTime1;
-//        System.out.println("Tiempo de ejecución: " + duration1 / 1_000_000 + " ms");
-//        imagen.saveImage(resultImage1, "ej1.jpg", "laplacian", 21, "Secuencial");
+        long startTime1 = System.nanoTime();
+        BufferedImage resultImage1 = imagen.applyConvolutionRGB(image, laplacianKernel);
+        long endTime1 = System.nanoTime();
+        long duration1 = endTime1 - startTime1;
+        System.out.println("Tiempo de ejecución: " + duration1 / 1_000_000 + " ms");
+        imagen.saveImage(resultImage1, "ej1.jpg", "laplacian", 21, "Secuencial");
 
 
         //Ejecucion Parallela
