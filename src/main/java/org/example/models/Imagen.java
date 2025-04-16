@@ -104,15 +104,18 @@ public class Imagen {
         BufferedImage resultImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         int numThreads = Runtime.getRuntime().availableProcessors();
-        int blockWidth = (width - 2 * margin) / numThreads;
-        int remainder = (width - 2 * margin) % numThreads;
+        int processableWidth = width - 2 * margin;
+        int blockWidth = processableWidth / numThreads;
+        int remainder = processableWidth % numThreads;
 
         ImageCalcParallel[] threads = new ImageCalcParallel[numThreads];
-        int startX = 0;
+        int startX = margin;
 
         for (int i = 0; i < numThreads; i++) {
-            int endX = startX + blockWidth + (i == numThreads - 1 ? remainder : 0);
+            int currentBlockWidth = blockWidth + (i == numThreads - 1 ? remainder : 0);
+            int endX = startX + currentBlockWidth;
 
+            // Asegurarse de que no se sobrepase el límite:
             endX = Math.min(endX, width - margin);
 
             threads[i] = new ImageCalcParallel(image, resultImage, kernel, startX, endX, width, height);
@@ -122,8 +125,8 @@ public class Imagen {
         }
 
         try {
-            for (ImageCalcParallel t : threads) {
-                t.join();
+            for (ImageCalcParallel thread : threads) {
+                thread.join();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -131,4 +134,5 @@ public class Imagen {
 
         return resultImage;
     }
+
 }
